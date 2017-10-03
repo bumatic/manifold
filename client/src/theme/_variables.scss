@@ -30,13 +30,22 @@ $neutralOffWhite: $neutral05;
 $neutralOffBlack: $neutral90;
 
 // Accent Colors
-$accentPrimary: #52e3ac !default;
-$accentPrimaryDark: #34a178 !default;
-$accentPrimaryMedium: #3dbd8c !default;
-$accentPrimaryLight: #75e9bd !default;
-$accentPrimaryDull: #b1ead2 !default;
-$accentPrimaryPale: #c1f7e4 !default;
-$accentPrimaryOffWhite: #f0faf7 !default;
+//$accentPrimary: #52e3ac !default;
+//$accentPrimaryDark: #34a178 !default;
+//$accentPrimaryMedium: #3dbd8c !default;
+//$accentPrimaryLight: #d7df23 !default;
+//$accentPrimaryDull: #2b93d1 !default;
+//$accentPrimaryPale: #78aede !default;
+//$accentPrimaryOffWhite: #f0faf7 !default;
+
+$accentPrimary: #88ac2e !default;
+$accentPrimaryDark: #3d8038 !default;
+$accentPrimaryMedium: #639633 !default;
+$accentPrimaryLight: #BBDF61 !default;
+$accentPrimaryDull: #b7d56d !default;
+$accentPrimaryPale: #EEFF94 !default;
+$accentPrimaryOffWhite: #FFFFE1 !default;
+
 
 // ---> For SVG interpolation
 $accentPrimaryHex: str-slice(#{$accentPrimary}, 2);
@@ -45,17 +54,17 @@ $accentPrimaryHex: str-slice(#{$accentPrimary}, 2);
 // Color spectra are number by group and then given ordinal names, attributes
 
 // SP 20 Reader Annotations, Highlighting, Labels
-$sp20Primary: #2bd1fa;
-$sp20PrimaryLight: #99e3f5;
-$sp20PrimaryPale: #d9f5fb;
-$sp20PrimaryPaleLowContrast: #808f9b;
+$sp20Primary: #42B68A;
+$sp20PrimaryLight: #5CD0A4;
+$sp20PrimaryPale: #74b99f;
+$sp20PrimaryPaleLowContrast: #74b99f;
 
 $sp20Secondary: #70c930;
 $sp20SecondaryLight: #c6eaac;
 $sp20SecondaryPale: #eaf7e0;
-$sp20SecondaryPaleLowContrast: #677b61;
+$sp20SecondaryPaleLowContrast: #eaf7e0;
 
-$sp20Tertiary: #ff12ff;
+$sp20Tertiary: #fbae3c;
 
 $sp20Quaternary: #fffd73;
 
