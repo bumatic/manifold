@@ -12,7 +12,7 @@ class RequireKind extends PureComponent {
   };
 
   static propTypes = {
-    requiredKind: PropTypes.string.isRequired,
+    requiredKind: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
     kindMatchBehavior: PropTypes.oneOf(["hide", "show"]).isRequired,
     redirect: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
@@ -59,6 +59,7 @@ class RequireKind extends PureComponent {
     if (!this.isAuthenticated(props)) return false;
     if (props.requiredKind === "any" && this.isAuthenticated(props))
       return true;
+    if (Array.isArray(props.requiredKind)) return props.requiredKind.includes(this.user(props).attributes.kind);
     return props.requiredKind === this.user(props).attributes.kind;
   }
 
@@ -67,13 +68,21 @@ class RequireKind extends PureComponent {
   }
 
   renderHide(props) {
-    if (!this.kindMatch(props)) return Children.only(this.props.children);
-    return null;
+    if (this.kindMatch(props)) return null;
+    return (
+      <React.Fragment>
+        {this.props.children}
+      </React.Fragment>
+    );
   }
 
   renderShow(props) {
-    if (this.kindMatch(props)) return Children.only(this.props.children);
-    return null;
+    if (!this.kindMatch(props)) return null;
+    return (
+      <React.Fragment>
+        {this.props.children}
+      </React.Fragment>
+    );
   }
 
   render() {
