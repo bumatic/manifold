@@ -124,12 +124,19 @@ class Project < ApplicationRecord
     return all unless subject.present?
     joins(:project_subjects).where(project_subjects: { subject: subject })
   }
+
   scope :with_order, lambda { |by = nil|
     return order(:sort_title, :title) unless by.present?
     order(by)
   }
 
   scope :excluding_drafts, -> { where(draft: false) }
+
+  scope :visible_to, lambda { |user|
+    return excluding_drafts unless user.present?
+    return all if user.admin? || user.editor?
+    where(id: by_permitted_user(user)).or(excluding_drafts)
+  }
 
   # Why is this here? --ZD
   def self.call
