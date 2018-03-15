@@ -1,4 +1,4 @@
-class MakerAuthorizer < ApplicationAuthorizer
+class ProjectChildAuthorizer < ApplicationAuthorizer
   def self.updatable_by?(user)
     user.kind != Role::ROLE_READER
   end
@@ -16,32 +16,22 @@ class MakerAuthorizer < ApplicationAuthorizer
   end
 
   def creatable_by?(user)
-    user.admin? ||
-      user.editor? ||
-      editor_of_maker_project?(user)
+    user.can_update? resource.project
   end
 
   def readable_by?(user)
     user.admin? ||
       user.editor? ||
-      editor_of_maker_project?(user)
+      user.marketeer? ||
+      user.project_editor_of?(resource.project) ||
+      user.project_resource_editor_of?(resource.project)
   end
 
   def updatable_by?(user)
-    user.admin? ||
-      user.editor? ||
-      editor_of_maker_project?(user)
+    user.can_update? resource.project
   end
 
   def deletable_by?(user)
-    user.admin? ||
-      user.editor? ||
-      editor_of_maker_project?(user)
-  end
-
-  def editor_of_maker_project?(user)
-    resource.projects.any? do |project|
-      user.project_editor_of? project
-    end
+    user.can_delete? resource.project
   end
 end

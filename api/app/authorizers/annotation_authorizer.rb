@@ -17,14 +17,15 @@ class AnnotationAuthorizer < ApplicationAuthorizer
   end
 
   def creatable_by?(user)
-    Annotation::NOTATION_TYPES.include?(resource.format) ? user.admin? : true
+    return true unless Annotation::NOTATION_TYPES.include?(resource.format)
+    user.admin? || user.editor?
   end
 
   def deletable_by?(user)
-    resource.creator == user || user.admin?
+    resource.creator == user || user.admin? || user.editor?
   end
 
   def updatable_by?(user)
-    resource.creator == user || user.admin?
+    resource.creator == user || user.admin? || user.editor?
   end
 end

@@ -1,7 +1,8 @@
 class UserAuthorizer < ApplicationAuthorizer
 
-  def self.creatable_by?(_user)
-    true
+  def self.creatable_by?(user)
+    return true unless user
+    user.admin?
   end
 
   def self.updatable_by?(user)
@@ -16,20 +17,12 @@ class UserAuthorizer < ApplicationAuthorizer
     user.admin?
   end
 
-  def creatable_by?(user)
-    resource == user || user.admin?
-  end
-
   def updatable_by?(user)
     resource == user || user.admin?
   end
 
   def readable_by?(user)
     resource == user || user.admin?
-  end
-
-  def deletable_by?(user)
-    user.admin?
   end
 
 end

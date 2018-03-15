@@ -15,6 +15,10 @@ class Maker < ApplicationRecord
 
   # Associations
   has_many :collaborators
+  has_many :projects,
+           through: :collaborators,
+           source_type: "Project",
+           source: :collaboratable
 
   # Attachments
   manifold_has_attached_file :avatar, :image

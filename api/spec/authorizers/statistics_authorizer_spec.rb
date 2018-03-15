@@ -1,18 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe StatisticsAuthorizer, :authorizer do
-  let(:user) { FactoryBot.create(:user) }
-  let(:admin) { FactoryBot.create(:user, role: Role::ROLE_ADMIN) }
+  context 'when the subject is an admin' do
+    let(:subject) { FactoryBot.create(:user, role: Role::ROLE_ADMIN) }
 
-  describe 'class authorization' do
-    context 'when reading' do
-      it 'is true for admin' do
-        expect(StatisticsAuthorizer).to be_readable_by(admin)
-      end
+    abilities = { create: false, read: true, update: false, delete: false }
+    it_should_behave_like "an authorized user for a class", Statistics, abilities
+  end
 
-      it 'is false for user' do
-        expect(StatisticsAuthorizer).to_not be_readable_by(user)
-      end
-    end
+  context 'when the subject is an editor' do
+    let(:subject) { FactoryBot.create(:user, role: Role::ROLE_EDITOR) }
+
+    abilities = { create: false, read: true, update: false, delete: false }
+    it_should_behave_like "an authorized user for a class", Statistics, abilities
+  end
+
+  context 'when the subject is a marketeer' do
+    let(:subject) { FactoryBot.create(:user, role: Role::ROLE_MARKETEER) }
+
+    abilities = { create: false, read: true, update: false, delete: false }
+    it_should_behave_like "an authorized user for a class", Statistics, abilities
+  end
+
+  context 'when the subject is a reader' do
+    let(:subject) { FactoryBot.create(:user) }
+
+    it_should_behave_like "an authorized user for a class", Statistics, none: true
   end
 end
