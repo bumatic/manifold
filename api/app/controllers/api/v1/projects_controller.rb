@@ -56,7 +56,7 @@ module Api
       end
 
       def project_scope
-        current_user&.can?(:view_drafts) ? Project.all : Project.excluding_drafts
+        Project.visible_to current_user
       end
 
     end

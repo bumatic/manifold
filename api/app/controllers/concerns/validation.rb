@@ -318,7 +318,9 @@ module Validation
   end
 
   def project_filter_params
-    params.permit(filter: [:featured, :subject, :keyword, :order, :typeahead])[:filter]
+    params.permit(
+      filter: [:featured, :subject, :keyword, :order, :typeahead, :permitted_user]
+    )[:filter]
   end
 
   def maker_filter_params

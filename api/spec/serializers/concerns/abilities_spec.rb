@@ -28,14 +28,20 @@ RSpec.describe Abilities, type: :serializer do
   }
   let (:reader_target) {
     JSON.parse({
-      comment: { create: true, read: true },
       annotation: { create: true, read: true },
+      comment: { create: true, read: true },
+      project: { create: false, read: true },
+      permission: { create: false, read: false },
+      statistics: { create: false, read: false },
       user: { create: false, read: false }}.to_json)
   }
   let (:admin_target) {
     JSON.parse({
-       comment: { create: true, read: true },
        annotation: { create: true, read: true },
+       comment: { create: true, read: true },
+       project: { create: true, read: true },
+       permission: { create: true, read: true },
+       statistics: { create: false, read: true },
        user: { create: true, read: true }}.to_json)
   }
 

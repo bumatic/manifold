@@ -1,12 +1,14 @@
 # Provides a partial serialization of a project model.
 class ProjectSerializer < ProjectPartialSerializer
   include SerializedMetadata
+  include Abilities
 
   meta(partial: false)
 
   attributes :event_count, :metadata, :collections_count, :resources_count,
              :uncollected_resources_count, :published_text_toc_id, :event_types,
-             :metadata_properties, :citations, :hide_activity, :metadata_formatted
+             :metadata_properties, :citations, :hide_activity, :metadata_formatted,
+             :abilities
 
   link :self do
     "https://manifold-api.dev/api/v1/projects/#{object.id}"

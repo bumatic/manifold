@@ -10,6 +10,10 @@ module WithPermittedUsers
        foreign_key: :resource_id,
        source: :users
 
+    scope :by_permitted_user, lambda { |user|
+      joins(:permissions).where(permissions: { user: user }) if user.present?
+    }
+
     after_create :grant_project_editor_role!
   end
 
