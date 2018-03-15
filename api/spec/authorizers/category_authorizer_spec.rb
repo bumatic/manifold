@@ -1,38 +1,77 @@
 require 'rails_helper'
 
-RSpec.describe CategoryAuthorizer, :authorizer do
-  let(:user) { FactoryBot.create(:user) }
-  let(:admin) { FactoryBot.create(:user, role: Role::ROLE_ADMIN) }
+RSpec.describe IngestionAuthorizer, :authorizer do
+  context 'when the subject is an admin' do
+    let(:subject) { FactoryBot.create(:user, role: Role::ROLE_ADMIN) }
+    let(:object) { FactoryBot.create(:category) }
 
-  describe 'class authorization' do
-    context 'when creating' do
-      it 'is true for admin' do
-        expect(CategoryAuthorizer).to be_creatable_by(admin)
-      end
+    it_should_behave_like "an authorized user for an instance", Category, all: true
+  end
 
-      it 'is false for user' do
-        expect(CategoryAuthorizer).to_not be_creatable_by(user)
-      end
+  context 'when the subject is an editor' do
+    let(:subject) { FactoryBot.create(:user, role: Role::ROLE_EDITOR) }
+    let(:object) { FactoryBot.create(:category) }
+
+    it_should_behave_like "an authorized user for an instance", Category, all: true
+  end
+
+  context 'when the subject is a project_creator' do
+    let(:subject) { FactoryBot.create(:user, role: Role::ROLE_PROJECT_CREATOR) }
+    let(:object) { FactoryBot.create(:category) }
+
+    abilities = { create: false, read: false, update: false, delete: false }
+    it_should_behave_like "an authorized user for an instance", Category, abilities
+  end
+
+  context 'when the subject is a marketeer' do
+    let(:subject) { FactoryBot.create(:user, role: Role::ROLE_MARKETEER) }
+    let(:object) { FactoryBot.create(:category) }
+
+    abilities = { create: true, read: true, update: true, delete: false }
+    it_should_behave_like "an authorized user for an instance", Category, abilities
+  end
+
+  context 'when the subject is a reader and project_editor of a specific category' do
+    before(:each) do
+      @maintainer = FactoryBot.create(:user)
+      @category = FactoryBot.create(:category)
+      @maintainer.add_role Role::ROLE_PROJECT_EDITOR, @category.project
     end
+    let(:subject) { @maintainer }
+    let(:object) { @category }
 
-    context 'when updating' do
-      it 'is true for admin' do
-        expect(CategoryAuthorizer).to be_updatable_by(admin)
-      end
+    it_should_behave_like "an authorized user for an instance", Category, all: true
+  end
 
-      it 'is false for user' do
-        expect(CategoryAuthorizer).to_not be_updatable_by(user)
-      end
+  context 'when the subject is a reader and project_resource_editor of a specific category' do
+    before(:each) do
+      @metadata_maintainer = FactoryBot.create(:user)
+      @category = FactoryBot.create(:category)
+      @metadata_maintainer.add_role Role::ROLE_PROJECT_RESOURCE_EDITOR, @category.project
     end
+    let(:subject) { @metadata_maintainer }
+    let(:object) { @category }
 
-    context 'when deleting' do
-      it 'is true for admin' do
-        expect(CategoryAuthorizer).to be_deletable_by(admin)
-      end
+    abilities = { create: false, read: true, update: false, delete: false }
+    it_should_behave_like "an authorized user for an instance", Category, abilities
+  end
 
-      it 'is false for user' do
-        expect(CategoryAuthorizer).to_not be_deletable_by(user)
-      end
+  context 'when the subject is a reader and project_author of a specific category' do
+    before(:each) do
+      @author = FactoryBot.create(:user)
+      @category = FactoryBot.create(:category)
+      @author.add_role Role::ROLE_PROJECT_AUTHOR, @category.project
     end
+    let(:subject) { @author }
+    let(:object) { @category }
+
+    it_should_behave_like "an authorized user for an instance", Category, none: true
+  end
+
+  context 'when the subject is a reader' do
+    let(:subject) { FactoryBot.create(:user) }
+    let(:object) { FactoryBot.create(:category) }
+
+    it_should_behave_like "an authorized user for an instance", Category, none: true
   end
 end

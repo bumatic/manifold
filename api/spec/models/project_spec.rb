@@ -237,5 +237,4 @@ RSpec.describe Project, type: :model do
     include_examples "a citable class with_citable_children"
   end
 
-
 end

@@ -1,10 +1,10 @@
 require "rails_helper"
 
 RSpec.describe Abilities, type: :serializer do
-  let(:user) { FactoryBot.create(:user) }
-  let(:admin) { FactoryBot.create(:user, role: "admin") }
+  let(:reader) { FactoryBot.create(:user) }
+  let(:admin) { FactoryBot.create(:user, role: Role::ROLE_ADMIN) }
   let(:annotation) { FactoryBot.create(:annotation) }
-  let(:creator_annotation) { FactoryBot.create(:annotation, creator: user) }
+  let(:creator_annotation) { FactoryBot.create(:annotation, creator: reader) }
   let(:controller) { double("Controller", url_options: true) }
   let(:target) {
     JSON.parse({
@@ -26,11 +26,11 @@ RSpec.describe Abilities, type: :serializer do
       creator: true
     }.to_json)
   }
-  let (:user_target) {
+  let (:reader_target) {
     JSON.parse({
       comment: { create: true, read: true },
       annotation: { create: true, read: true },
-      user: { create: true, read: false }}.to_json)
+      user: { create: false, read: false }}.to_json)
   }
   let (:admin_target) {
     JSON.parse({
@@ -41,7 +41,7 @@ RSpec.describe Abilities, type: :serializer do
 
   context "returns correct abilities" do
     it "when not resource creator" do
-      allow_any_instance_of(AnnotationSerializer).to receive(:scope).and_return(Api::V1::SerializationContext.new(controller: controller, current_user: user))
+      allow_any_instance_of(AnnotationSerializer).to receive(:scope).and_return(Api::V1::SerializationContext.new(controller: controller, current_user: reader))
       serialization = JSON.parse ActiveModelSerializers::Adapter.create(AnnotationSerializer.new(annotation)).to_json
       expect(serialization['data']['attributes']['abilities']).to eq target
     end
@@ -53,17 +53,17 @@ RSpec.describe Abilities, type: :serializer do
     end
 
     it "when resource creator" do
-      allow_any_instance_of(AnnotationSerializer).to receive(:scope).and_return(Api::V1::SerializationContext.new(controller: controller, current_user: user))
+      allow_any_instance_of(AnnotationSerializer).to receive(:scope).and_return(Api::V1::SerializationContext.new(controller: controller, current_user: reader))
       serialization = JSON.parse ActiveModelSerializers::Adapter.create(AnnotationSerializer.new(creator_annotation)).to_json
       expect(serialization['data']['attributes']['abilities']).to eq creator_target
     end
   end
 
   context "returns correct class abilities" do
-    it "when user" do
-      allow_any_instance_of(CurrentUserSerializer).to receive(:scope).and_return(Api::V1::SerializationContext.new(controller: controller, current_user: user))
-      serialization = JSON.parse ActiveModelSerializers::Adapter.create(CurrentUserSerializer.new(user)).to_json
-      expect(serialization['data']['attributes']['classAbilities']).to eq user_target
+    it "when reader" do
+      allow_any_instance_of(CurrentUserSerializer).to receive(:scope).and_return(Api::V1::SerializationContext.new(controller: controller, current_user: reader))
+      serialization = JSON.parse ActiveModelSerializers::Adapter.create(CurrentUserSerializer.new(reader)).to_json
+      expect(serialization['data']['attributes']['classAbilities']).to eq reader_target
     end
 
     it "when admin" do

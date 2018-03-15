@@ -1,19 +1,5 @@
-class ResourceAuthorizer < ApplicationAuthorizer
-
-  def self.updatable_by?(user)
-    user.admin?
+class ResourceAuthorizer < ProjectChildAuthorizer
+  def updatable_by?(user)
+    ProjectAuthorizer.new(resource.project).resource_metadata_updatable_by?(user)
   end
-
-  def self.readable_by?(_user)
-    true
-  end
-
-  def self.creatable_by?(user)
-    user.admin?
-  end
-
-  def self.deletable_by?(user)
-    user.admin?
-  end
-
 end

@@ -25,7 +25,7 @@ class CommentAuthorizer < ApplicationAuthorizer
   end
 
   def deletable_by?(user)
-    resource.creator == user || user.admin?
+    resource.creator == user || user.admin? || user.editor?
   end
 
   def updatable_by?(user)
@@ -33,7 +33,7 @@ class CommentAuthorizer < ApplicationAuthorizer
   end
 
   def readable_if_deleted_by?(user)
-    user.admin?
+    user.admin? || user.editor?
   end
 
 end

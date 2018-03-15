@@ -12,12 +12,12 @@ class StylesheetAuthorizer < ApplicationAuthorizer
     user.admin?
   end
 
-  def readable_by?(_user)
-    true
-  end
-
   def self.deletable_by?(user)
     user.admin?
+  end
+
+  def readable_by?(_user)
+    true
   end
 
 end
