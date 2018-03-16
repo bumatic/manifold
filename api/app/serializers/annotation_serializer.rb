@@ -5,7 +5,7 @@ class AnnotationSerializer < ApplicationSerializer
 
   has_one :creator
   attributes :created_at, :end_char, :end_node, :id, :start_char, :start_node,
-             :text_section_id, :updated_at, :format, :subject, :abilities,
+             :text_section_id, :updated_at, :format, :subject, :abilities_for_user,
              :resource_id, :creator_id, :body, :private,
              :comments_count, :collection_id, :author_created
 

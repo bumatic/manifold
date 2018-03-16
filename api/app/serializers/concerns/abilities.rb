@@ -2,14 +2,21 @@
 module Abilities
   extend ActiveSupport::Concern
 
-  def abilities
+  def abilities_for_user
     {
       read: read?,
       create: create?,
       update: update?,
       delete: delete?,
+      update_metadata: update_metadata?,
       read_if_deleted: read_if_deleted?,
       creator: current_user_is_creator
+    }
+  end
+
+  def abilities
+    {
+      view_drafts: view_drafts?
     }
   end
 
@@ -58,6 +65,15 @@ module Abilities
     object.readable_if_deleted_by? user
   end
   alias can_read_deleted? read_if_deleted?
+
+  def update_metadata?
+    object.resource_metadata_updatable_by? user
+  end
+  alias can_update_metadata? update_metadata?
+
+  def view_drafts?
+    object.can?(:view_drafts)
+  end
 
   def current_user_is_creator
     return false unless authenticated?

@@ -134,8 +134,7 @@ class Project < ApplicationRecord
 
   scope :visible_to, lambda { |user|
     return excluding_drafts unless user.present?
-    return all if user.admin? || user.editor?
-    where(id: by_permitted_user(user)).or(excluding_drafts)
+    where(id: by_permitted_user(user)).or(excluding_drafts) unless user.can? :view_drafts
   }
 
   # Why is this here? --ZD

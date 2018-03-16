@@ -80,7 +80,7 @@ export class DashboardsAdminContainer extends PureComponent {
     const out = Object.assign({}, base);
     const currentUser = props.currentUser;
     if (!currentUser) return out;
-    if (currentUser.attributes.kind === "admin") return out;
+    if (currentUser.attributes.abilities.viewDrafts) return out;
     out.permitted_user = currentUser.id;
     return out;
   };

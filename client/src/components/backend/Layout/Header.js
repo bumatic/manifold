@@ -45,6 +45,8 @@ export default class LayoutHeader extends Component {
   exitLabel(kind) {
     if (kind === "project_editor" || kind === "project_resource_editor")
       return "Exit Editor Mode";
+    if (kind === "project_author")
+      return "Exit Author Mode";
     return "Exit Admin Mode";
   }
 
@@ -70,7 +72,7 @@ export default class LayoutHeader extends Component {
               </li>
               <HigherOrder.RequireAbility
                 entity="user"
-                requiredAbility="update"
+                requiredAbility="read"
               >
                 <li>
                   <NavLink

@@ -43,7 +43,8 @@ Authority.configure do |config|
     update: "updatable",
     delete: "deletable",
     destroy: "deleteable",
-    read_deleted: "readable_if_deleted"
+    read_deleted: "readable_if_deleted",
+    update_resource_metadata: "resource_metadata_updatable"
   }
 
   # LOGGER
