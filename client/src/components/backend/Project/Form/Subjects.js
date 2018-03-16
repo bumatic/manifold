@@ -4,6 +4,7 @@ import { Form } from "components/backend";
 import { projectsAPI, subjectsAPI } from "api";
 import { connect } from "react-redux";
 import { entityStoreActions } from "actions";
+import { HigherOrder } from "containers/global";
 import get from "lodash/get";
 
 const { request, flush } = entityStoreActions;
@@ -61,21 +62,23 @@ export class ProjectSubjects extends PureComponent {
     const project = this.props.project;
 
     return (
-      <Form.HasMany
-        label="Subjects"
-        placeholder="Add a Subject"
-        onNew={value => {
-          return this.newSubject(value);
-        }}
-        onChange={subjects => {
-          this.updateSubjects(subjects);
-        }}
-        optionsFetch={subjectsAPI.index}
-        entities={project.relationships.subjects}
-        entityBuilder={this.buildEntity}
-        entityLabelAttribute="name"
-        errors={get(this.props, "createSubjects.errors")}
-      />
+      <HigherOrder.RequireAbility requiredAbility="create" entity="subject">
+        <Form.HasMany
+          label="Subjects"
+          placeholder="Add a Subject"
+          onNew={value => {
+            return this.newSubject(value);
+          }}
+          onChange={subjects => {
+            this.updateSubjects(subjects);
+          }}
+          optionsFetch={subjectsAPI.index}
+          entities={project.relationships.subjects}
+          entityBuilder={this.buildEntity}
+          entityLabelAttribute="name"
+          errors={get(this.props, "createSubjects.errors")}
+        />
+      </HigherOrder.RequireAbility>
     );
   }
 }

@@ -81,9 +81,10 @@ export class ProjectCollectionsListContainer extends PureComponent {
           </h3>
         </header>
         <List.Searchable
-          newButtonVisible
-          newButtonPath={lh.link("backendProjectCollectionsNew", project.id)}
-          newButtonText="Add a New Collection"
+          newButton={{
+            path: lh.link("backendProjectCollectionsNew", project.id),
+            text: "Add a New Collection"
+          }}
           entities={this.props.collections}
           singularUnit="collection"
           pluralUnit="collections"

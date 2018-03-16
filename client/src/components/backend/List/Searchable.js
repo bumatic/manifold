@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Utility } from "components/global";
+import { HigherOrder } from "containers/global";
 import { List } from "components/backend";
 import { Link } from "react-router-dom";
 import get from "lodash/get";
@@ -19,25 +20,29 @@ export default class ListSearchable extends PureComponent {
     entityComponentProps: PropTypes.object,
     entityComponent: PropTypes.func.isRequired,
     paginationPadding: PropTypes.number,
-    newButtonText: PropTypes.string,
-    newButtonVisible: PropTypes.bool,
-    newButtonPath: PropTypes.string,
-    newButtonType: PropTypes.string,
+    newButton: PropTypes.shape({
+      text: PropTypes.string,
+      path: PropTypes.string,
+      type: PropTypes.string,
+      authorizedFor: PropTypes.string
+    }),
+    secondaryButton: PropTypes.shape({
+      icon: PropTypes.string,
+      path: PropTypes.string,
+      type: PropTypes.string,
+      text: PropTypes.string,
+      authorizedFor: PropTypes.string
+    }),
     filterOptions: PropTypes.object,
     destroyHandler: PropTypes.func,
-    filterChangeHandler: PropTypes.func,
-    secondaryButtonIcon: PropTypes.string,
-    secondaryButtonVisible: PropTypes.bool,
-    secondaryButtonPath: PropTypes.string,
-    secondaryButtonType: PropTypes.string,
-    secondaryButtonText: PropTypes.string
+    filterChangeHandler: PropTypes.func
   };
 
   static defaultProps = {
     entityComponentProps: {},
-    newButtonText: "Add new",
-    newButtonVisible: false,
-    paginationPadding: 3
+    newButton: null,
+    paginationPadding: 3,
+    requireAbility: null
   };
 
   constructor(props) {
@@ -171,17 +176,67 @@ export default class ListSearchable extends PureComponent {
     return filter.labels[option];
   }
 
+  renderNewButton(props) {
+    if (!props.newButton) return null;
+
+    const button = (
+      <Link
+        to={props.newButton.path}
+        className={`button-icon-secondary ${props.newButtonType}`}
+      >
+        <i className="manicon manicon-plus" />
+        {props.newButton.text}
+      </Link>
+    );
+
+    if (props.newButton.authorizedFor)
+      return (
+        <HigherOrder.RequireAbility
+          entity={props.newButton.authorizedFor}
+          requiredAbility="create"
+        >
+          {button}
+        </HigherOrder.RequireAbility>
+      );
+    return button;
+  }
+
+  renderSecondaryButton(props) {
+    if (!props.secondaryButton) return null;
+
+    const secondaryButtonIcon = props.secondaryButton.icon
+      ? props.secondaryButton.icon
+      : "manicon-plus";
+
+    const button = (
+      <Link
+        to={props.secondaryButton.path}
+        className={`button-icon-secondary ${
+          props.secondaryButton.type
+          }`}
+      >
+        <i className={`manicon ${secondaryButtonIcon}`} />
+        {props.secondaryButton.text}
+      </Link>
+    );
+
+    if (props.secondaryButton.authorizedFor)
+      return (
+        <HigherOrder.RequireAbility
+          entity={props.secondaryButton.authorizedFor}
+          requiredAbility="create"
+        >
+          {button}
+        </HigherOrder.RequireAbility>
+      );
+    return button;
+  }
+
   renderEntityList() {
     const entities = this.props.entities;
     if (!entities) return;
 
-    const secondaryButtonIcon = this.props.secondaryButtonIcon
-      ? this.props.secondaryButtonIcon
-      : "manicon-plus";
-
-    let output = null;
-
-    output = (
+    return (
       <div>
         <Utility.EntityCount
           pagination={this.props.pagination}
@@ -189,26 +244,8 @@ export default class ListSearchable extends PureComponent {
           pluralUnit={this.props.pluralUnit}
         />
         <div className="buttons-icon-horizontal">
-          {this.props.newButtonVisible ? (
-            <Link
-              to={this.props.newButtonPath}
-              className={`button-icon-secondary ${this.props.newButtonType}`}
-            >
-              <i className="manicon manicon-plus" />
-              {this.props.newButtonText}
-            </Link>
-          ) : null}
-          {this.props.secondaryButtonVisible ? (
-            <Link
-              to={this.props.secondaryButtonPath}
-              className={`button-icon-secondary ${
-                this.props.secondaryButtonType
-              }`}
-            >
-              <i className={`manicon ${secondaryButtonIcon}`} />
-              {this.props.secondaryButtonText}
-            </Link>
-          ) : null}
+          {this.renderNewButton(this.props)}
+          {this.renderSecondaryButton(this.props)}
         </div>
         {entities.length > 0 ? (
           <List.SimpleList
@@ -222,8 +259,6 @@ export default class ListSearchable extends PureComponent {
         )}
       </div>
     );
-
-    return output;
   }
 
   render() {

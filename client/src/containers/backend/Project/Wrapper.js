@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import connectAndFetch from "utils/connectAndFetch";
 import { Dialog, Navigation } from "components/backend";
+import { HigherOrder } from "containers/global";
 import { entityStoreActions } from "actions";
 import { select } from "utils/entityUtils";
 import { projectsAPI, requests } from "api";
@@ -71,7 +72,8 @@ export class ProjectWrapperContainer extends PureComponent {
       {
         path: lh.link("backendProjectPermissions", project.id),
         label: "Permissions",
-        key: "permissions"
+        key: "permissions",
+        kind: "admin"
       },
       {
         path: lh.link("backendProjectCollaborators", project.id),
@@ -151,18 +153,20 @@ export class ProjectWrapperContainer extends PureComponent {
     );
   }
 
-  renderUtility() {
+  renderUtility(project) {
     return (
       <div>
         <button onClick={this.doPreview} className="button-bare-primary">
           Preview <i className="manicon manicon-eye-outline" />
         </button>
-        <button
-          onClick={this.handleProjectDestroy}
-          className="button-bare-primary"
-        >
-          Delete <i className="manicon manicon-trashcan" />
-        </button>
+        <HigherOrder.RequireAbility entity={project} requiredAbility={"delete"}>
+          <button
+            onClick={this.handleProjectDestroy}
+            className="button-bare-primary"
+          >
+            Delete <i className="manicon manicon-trashcan" />
+          </button>
+        </HigherOrder.RequireAbility>
       </div>
     );
   }
@@ -187,7 +191,7 @@ export class ProjectWrapperContainer extends PureComponent {
           breadcrumb={[{ path: lh.link("backend"), label: "ALL PROJECTS" }]}
           title={project.attributes.title}
           subtitle={project.attributes.subtitle}
-          utility={this.renderUtility()}
+          utility={this.renderUtility(project)}
         />
         <section className="backend-panel">
           <aside className="scrollable">
