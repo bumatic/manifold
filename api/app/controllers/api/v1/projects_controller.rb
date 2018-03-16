@@ -56,9 +56,12 @@ module Api
       end
 
       def project_scope
-        Project.visible_to current_user
+        if project_filter_params&.dig(:by_permissions)
+          Project.by_permitted_user current_user
+        else
+          Project.visible_to current_user
+        end
       end
-
     end
   end
 end

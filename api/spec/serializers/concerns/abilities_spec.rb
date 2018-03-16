@@ -32,7 +32,9 @@ RSpec.describe Abilities, type: :serializer do
       comment: { create: true, read: true },
       project: { create: false, read: true },
       permission: { create: false, read: false },
+      settings: { create: false, read: false },
       statistics: { create: false, read: false },
+      subject: { create: false, read: true },
       user: { create: false, read: false }}.to_json)
   }
   let (:admin_target) {
@@ -41,7 +43,9 @@ RSpec.describe Abilities, type: :serializer do
        comment: { create: true, read: true },
        project: { create: true, read: true },
        permission: { create: true, read: true },
+       settings: { create: false, read: true },
        statistics: { create: false, read: true },
+       subject: { create: true, read: true },
        user: { create: true, read: true }}.to_json)
   }
 

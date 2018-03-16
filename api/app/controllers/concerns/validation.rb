@@ -319,7 +319,7 @@ module Validation
 
   def project_filter_params
     params.permit(
-      filter: [:featured, :subject, :keyword, :order, :typeahead, :permitted_user]
+      filter: [:featured, :subject, :keyword, :order, :typeahead, :by_permissions]
     )[:filter]
   end
 
@@ -360,14 +360,23 @@ module Validation
   def structure_params(attributes: nil, relationships: nil)
     data = [:type, :id]
     data << { meta: allowed_meta }
+    return metadata_params(data, attributes) if current_user&.project_resource_editor?
     data << { attributes: attributes } unless attributes.nil?
     unless relationships.nil?
-      relationships_config = {}
-      relationships.each do |relationship|
-        relationships_config[relationship] = { data: [:type, :id] }
+      relationships_config = relationships.each_with_object({}) do |relationship, config|
+        config[relationship] = { data: [:type, :id] }
       end
       data << { relationships: relationships_config }
     end
+    {
+      data: data
+    }
+  end
+
+  def metadata_params(data, attributes)
+    metadata = attributes&.select { |attr| attr.is_a? Hash }
+               .select { |hash| hash.key? :metadata }
+    data << { attributes: metadata } if metadata
     {
       data: data
     }

@@ -13,12 +13,25 @@ export default class PermissionListItem extends PureComponent {
     linkName: PropTypes.string.isRequired
   };
 
+  roleName(name) {
+    switch (name) {
+      case "project_editor":
+        return "Project Editor";
+      case "project_resource_editor":
+        return "Metadata Editor";
+      case "project_author":
+        return "Author";
+      default:
+        return null;
+    }
+  }
+
   renderRoles(entity) {
     const roles = entity.attributes.roleNames;
     return roles.map(role => {
       return (
-        <span key={`${entity.id}-${role}`} className="specifier">
-          {role}
+        <span key={`${entity.id}-${role}`}>
+          {this.roleName(role)}
         </span>
       );
     });
