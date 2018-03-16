@@ -44,4 +44,8 @@ class ProjectAuthorizer < ApplicationAuthorizer
     updatable_by?(user) || user.project_resource_editor_of?(resource)
   end
 
+  def project_makers_updatable_by?(user)
+    user.admin? || user.editor? || user.project_editor_of?(resource)
+  end
+
 end

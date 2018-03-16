@@ -25,14 +25,15 @@ export default class NavigationSecondary extends Component {
       <nav className="panel-nav">
         <ul>
           {this.props.links.map(link => {
-            if (link.kind)
+            if (link.ability)
               return (
-                <HigherOrder.RequireKind
-                  key={link.key}
-                  requiredKind={link.kind}
+                <HigherOrder.RequireAbility
+                  key={`${link.key}-wrapped`}
+                  entity={link.entity}
+                  requiredAbility={link.ability}
                 >
                   {this.renderItem(link)}
-                </HigherOrder.RequireKind>
+                </HigherOrder.RequireAbility>
               );
             return this.renderItem(link);
           })}

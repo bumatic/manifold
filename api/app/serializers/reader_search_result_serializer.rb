@@ -4,7 +4,7 @@ class ReaderSearchResultSerializer < ApplicationSerializer
   meta(partial: false)
 
   attributes :score, :searchable_type, :searchable_id, :body, :highlighted_body,
-             :node_uuid, :abilities
+             :node_uuid, :abilities_for_user
 
   has_one :creator, serializer: UserSerializer
   has_one :text_section, serializer: TextSectionPartialSerializer

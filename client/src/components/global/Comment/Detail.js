@@ -203,7 +203,7 @@ export default class CommentDetail extends PureComponent {
   render() {
     const { comment } = this.props;
     const { attributes } = comment;
-    if (attributes.deleted && !attributes.abilities.readIfDeleted) {
+    if (attributes.deleted && !attributes.abilitiesForUser.readIfDeleted) {
       return <Comment.Deleted comment={comment} subject={this.props.subject} />;
     }
     return this.renderComment();

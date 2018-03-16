@@ -67,7 +67,7 @@ export default class TextNode extends Component {
       const id = a.id;
       const type = a.attributes.format;
       const isCreator =
-        a.id === "selection" ? true : a.attributes.abilities.creator;
+        a.id === "selection" ? true : a.attributes.abilitiesForUser.creator;
       const start =
         a.attributes.startNode === this.props.nodeUuid
           ? a.attributes.startChar

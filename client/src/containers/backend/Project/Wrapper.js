@@ -62,53 +62,72 @@ export class ProjectWrapperContainer extends PureComponent {
       {
         path: lh.link("backendProject", project.id),
         label: "General",
-        key: "general"
+        key: "general",
+        entity: project,
+        ability: "update"
       },
       {
         path: lh.link("backendProjectProjectPage", project.id),
         label: "Appearance",
-        key: "projectPage"
+        key: "projectPage",
+        entity: project,
+        ability: "update"
       },
       {
         path: lh.link("backendProjectPermissions", project.id),
         label: "Permissions",
         key: "permissions",
-        kind: "admin"
+        entity: "permission",
+        ability: "create"
       },
       {
         path: lh.link("backendProjectCollaborators", project.id),
         label: "People",
-        key: "collaborators"
+        key: "collaborators",
+        entity: project,
+        ability: "updateMakers"
       },
       {
         path: lh.link("backendProjectTexts", project.id),
         label: "Texts",
-        key: "texts"
+        key: "texts",
+        entity: project,
+        ability: "update"
       },
       {
         path: lh.link("backendProjectResources", project.id),
         label: "Resources",
-        key: "resources"
+        key: "resources",
+        entity: project,
+        ability: "updateMetadata"
       },
       {
         path: lh.link("backendProjectCollections", project.id),
         label: "Collections",
-        key: "collections"
+        key: "collections",
+        entity: project,
+        ability: "update"
       },
       {
         path: lh.link("backendProjectEvents", project.id),
         label: "Activity",
-        key: "events"
+        key: "events",
+        entity: project,
+        ability: "update"
       },
       {
         path: lh.link("backendProjectMetadata", project.id),
         label: "Metadata",
-        key: "metadata"
+        key: "metadata",
+        entity: project,
+        ability: "update"
       },
       {
         path: lh.link("backendProjectSocial", project.id),
         label: "Social",
-        key: "social"
+        key: "social",
+        entity: project,
+        ability: "update"
       }
     ];
   }

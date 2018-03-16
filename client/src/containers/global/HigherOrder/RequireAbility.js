@@ -31,7 +31,7 @@ export class RequireAbilityComponent extends PureComponent {
       if (!props.currentUser) return false;
       return props.currentUser.attributes.classAbilities[props.entity];
     }
-    return props.entity.attributes.abilities;
+    return props.entity.attributes.abilitiesForUser;
   }
 
   behavior(props) {
