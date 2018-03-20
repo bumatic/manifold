@@ -211,9 +211,7 @@ export default class ListSearchable extends PureComponent {
     const button = (
       <Link
         to={props.secondaryButton.path}
-        className={`button-icon-secondary ${
-          props.secondaryButton.type
-          }`}
+        className={`button-icon-secondary ${props.secondaryButton.type}`}
       >
         <i className={`manicon ${secondaryButtonIcon}`} />
         {props.secondaryButton.text}

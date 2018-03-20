@@ -10,6 +10,13 @@ class Resource < ApplicationRecord
   # Search
   searchkick word_start: TYPEAHEAD_ATTRIBUTES, callbacks: :async
 
+  # PaperTrail
+  has_paper_trail on: [:update],
+                  meta: {
+                    parent_item_id: :project_id,
+                    parent_item_type: "Project"
+                  }
+
   # Tags
   acts_as_ordered_taggable
 

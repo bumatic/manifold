@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import connectAndFetch from "utils/connectAndFetch";
 import { entityStoreActions } from "actions";
 import { List, Project } from "components/backend";
-import withCurrentUser from "containers/global/HigherOrder/withCurrentUser";
 import { select, meta } from "utils/entityUtils";
 import { projectsAPI, requests } from "api";
 import debounce from "lodash/debounce";
@@ -31,7 +30,8 @@ export class DashboardsAuthorContainer extends PureComponent {
     return {
       projects: select(requests.beProjects, state.entityStore),
       projectsMeta: meta(requests.beProjects, state.entityStore),
-      recentProjects: select(requests.beRecentProjects, state.entityStore)
+      recentProjects: select(requests.beRecentProjects, state.entityStore),
+      currentUser: get(state, "authentication.currentUser")
     };
   };
 
@@ -104,4 +104,4 @@ export class DashboardsAuthorContainer extends PureComponent {
   }
 }
 
-export default connectAndFetch(withCurrentUser(DashboardsAuthorContainer));
+export default connectAndFetch(DashboardsAuthorContainer);

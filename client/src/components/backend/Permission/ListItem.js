@@ -29,11 +29,7 @@ export default class PermissionListItem extends PureComponent {
   renderRoles(entity) {
     const roles = entity.attributes.roleNames;
     return roles.map(role => {
-      return (
-        <span key={`${entity.id}-${role}`}>
-          {this.roleName(role)}
-        </span>
-      );
+      return <span key={`${entity.id}-${role}`}>{this.roleName(role)}</span>;
     });
   }
 

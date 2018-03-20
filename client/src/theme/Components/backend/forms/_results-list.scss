@@ -1,7 +1,17 @@
 .results-list {
   margin-top: 1em;
 
-  > ul {
+  &.flush {
+    margin-top: 0;
+  }
+
+  .no-results {
+    @include utilityPrimary;
+    font-size: 15px;
+    color: $neutral70;
+  }
+
+  ul {
     @include listUnstyled;
 
     li {
@@ -50,6 +60,9 @@
         }
       }
 
+      a {
+        color: $accentPrimary;
+      }
     }
 
     .results-header {
@@ -69,6 +82,17 @@
         font-size: 22px;
       }
 
+      .subtitle {
+        @include utilityPrimary;
+        line-height: 1.4;
+        font-size: 12px;
+        margin: 5px 0;
+
+        @include respond($break60) {
+          font-size: 14px;
+        }
+      }
+
       .manicon {
         position: relative;
         top: 8px;
@@ -82,6 +106,10 @@
       padding-left: 25px;
       margin-top: 5px;
       color: $neutral70;
+
+      &.flush {
+        padding-left: 0;
+      }
     }
 
     .results-secondary {

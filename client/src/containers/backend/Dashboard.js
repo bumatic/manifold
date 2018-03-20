@@ -11,7 +11,8 @@ export class DashboardContainer extends PureComponent {
   render() {
     const currentUser = this.props.currentUser;
     if (!currentUser) return null;
-    if (currentUser.attributes.kind === "project_author") return <Dashboards.Author />;
+    if (currentUser.attributes.kind === "project_author")
+      return <Dashboards.Author />;
     return <Dashboards.Admin />;
   }
 }
