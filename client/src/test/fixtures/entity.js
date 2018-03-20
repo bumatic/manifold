@@ -42,18 +42,38 @@ const metadataProperties = [
   "volume"
 ];
 
-const abilities = {
+const abilitiesForUser = {
   read: true,
   create: true,
   update: true,
   delete: true,
+  updateMetadata: true,
+  updateMakers: true,
   readIfDeleted: true
+};
+
+const abilities = {
+  viewDrafts: false
+};
+
+const classAbilities = {
+  annotation: { create: true, read: true },
+  comment: { create: true, read: true },
+  project: { create: true, read: true },
+  permission: { create: true, read: true },
+  settings: { create: true, read: true, update: true },
+  statistics: { create: true, read: true },
+  subject: { create: true, read: true },
+  text: { create: true, read: true, update: true },
+  user: { create: true, read: true, update: true },
+  version: { create: true, read: true }
 };
 
 const defaults = {
   settings: {
     type: "settings",
     attributes: {
+      abilitiesForUser,
       general: {
         installationName: "Manifold",
         contactUrl: "http://www.dailyrowan.com",
@@ -119,7 +139,8 @@ const defaults = {
       coverStyles: {},
       avatarStyles: {},
       hashtag: "#cute_dog",
-      hideActivity: false
+      hideActivity: false,
+      abilitiesForUser
     },
     relationships: {
       resources: []
@@ -134,7 +155,8 @@ const defaults = {
       createdAt: "2017-04-24T23:25:50.161Z",
       resourceKinds: ["image", "video"],
       resourceTags: ["dog"],
-      thumbnailStyles: {}
+      thumbnailStyles: {},
+      abilitiesForUser
     },
     relationships: {
       resources: []
@@ -170,7 +192,8 @@ const defaults = {
       createdAt: "2017-04-24T23:25:50.161Z",
       captionFormatted: "World's Greatest Dog",
       downloadable: true,
-      tagList: ["dog", "puppy", "GOAT"]
+      tagList: ["dog", "puppy", "GOAT"],
+      abilitiesForUser
     },
     relationships: {
       collectionResources: []
@@ -193,7 +216,7 @@ const defaults = {
     attributes: {
       body: "Plaid clash with polka dots, I hope you ain't mad.",
       createdAt: commentDate,
-      abilities
+      abilitiesForUser
     },
     relationships: {
       creator: null
@@ -207,10 +230,12 @@ const defaults = {
       firstName: "Rowan",
       lastName: "Ida",
       fullName: "Rowan Ida",
-      role: "Admin",
-      kind: "Admin",
+      role: "admin",
+      kind: "admin",
       avatarStyles: {},
       isCurrentUser: true,
+      classAbilities,
+      abilitiesForUser,
       abilities
     }
   },
@@ -257,7 +282,8 @@ const defaults = {
       coverStyles: {},
       rights: "All Rights Reserved",
       publicationDate: "2001-12-04",
-      toc: ["Chapter 1", "Chapter 2"]
+      toc: ["Chapter 1", "Chapter 2"],
+      abilitiesForUser
     },
     relationships: {
       project: null,
@@ -314,7 +340,7 @@ const defaults = {
       endNode: "another-node",
       startChar: 4,
       endChar: 13,
-      abilities
+      abilitiesForUser
     }
   },
 
@@ -372,11 +398,26 @@ const defaults = {
   permission: {
     type: "permissions",
     attributes: {
-      roleNames: ["author"]
+      roleNames: ["project_author"]
     },
     relationships: {
       resource: null,
       user: null
+    }
+  },
+
+  version: {
+    type: "versions",
+    attributes: {
+      itemId: "1",
+      itemType: "Resource",
+      itemDisplayName: "The World Is Yours",
+      actorName: "Nas",
+      actorId: "1",
+      createdAt: "2017-04-24T23:25:50.161Z",
+      objectChanges: {
+        title: ["original", "changed"]
+      }
     }
   }
 };
@@ -469,6 +510,10 @@ const permission = (id = null, attributes = {}, relationships = {}) => {
   return buildEntity("permission", id, attributes, relationships);
 };
 
+const version = (id = null, attributes = {}, relationships = {}) => {
+  return buildEntity("version", id, attributes, relationships);
+};
+
 export default {
   defaults,
   project,
@@ -489,5 +534,6 @@ export default {
   feature,
   subject,
   twitterQuery,
-  permission
+  permission,
+  version
 };

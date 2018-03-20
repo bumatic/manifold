@@ -45,39 +45,15 @@ exports[`Backend Backend Container renders correctly 1`] = `
                                 </Route>
                               </NavLink>
                             </li>
-                            <li>
-                              <NavLink activeClassName=\\"active\\" to=\\"/backend/people\\" ariaCurrent=\\"true\\">
-                                <Route path=\\"/backend/people\\" exact={[undefined]} strict={[undefined]} location={[undefined]}>
-                                  <Link to=\\"/backend/people\\" className={[undefined]} style={[undefined]} aria-current={false} replace={false}>
-                                    <a className={[undefined]} style={[undefined]} aria-current={false} onClick={[Function]} href=\\"/backend/people\\">
-                                      People
-                                    </a>
-                                  </Link>
-                                </Route>
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink activeClassName=\\"active\\" to=\\"/backend/content\\" ariaCurrent=\\"true\\">
-                                <Route path=\\"/backend/content\\" exact={[undefined]} strict={[undefined]} location={[undefined]}>
-                                  <Link to=\\"/backend/content\\" className={[undefined]} style={[undefined]} aria-current={false} replace={false}>
-                                    <a className={[undefined]} style={[undefined]} aria-current={false} onClick={[Function]} href=\\"/backend/content\\">
-                                      Content
-                                    </a>
-                                  </Link>
-                                </Route>
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink activeClassName=\\"active\\" to=\\"/backend/settings\\" ariaCurrent=\\"true\\">
-                                <Route path=\\"/backend/settings\\" exact={[undefined]} strict={[undefined]} location={[undefined]}>
-                                  <Link to=\\"/backend/settings\\" className={[undefined]} style={[undefined]} aria-current={false} replace={false}>
-                                    <a className={[undefined]} style={[undefined]} aria-current={false} onClick={[Function]} href=\\"/backend/settings\\">
-                                      Settings
-                                    </a>
-                                  </Link>
-                                </Route>
-                              </NavLink>
-                            </li>
+                            <Connect(AuthorizeComponent) kind=\\"admin\\">
+                              <AuthorizeComponent kind=\\"admin\\" authentication={{...}} dispatch={[Function]} successBehavior=\\"show\\" failureRedirect={{...}} failureNotification={{...}} failureFatalError={{...}} />
+                            </Connect(AuthorizeComponent)>
+                            <Connect(AuthorizeComponent) kind={{...}}>
+                              <AuthorizeComponent kind={{...}} authentication={{...}} dispatch={[Function]} successBehavior=\\"show\\" failureRedirect={{...}} failureNotification={{...}} failureFatalError={{...}} />
+                            </Connect(AuthorizeComponent)>
+                            <Connect(AuthorizeComponent) entity=\\"settings\\" ability=\\"read\\">
+                              <AuthorizeComponent entity=\\"settings\\" ability=\\"read\\" authentication={{...}} dispatch={[Function]} successBehavior=\\"show\\" failureRedirect={{...}} failureNotification={{...}} failureFatalError={{...}} />
+                            </Connect(AuthorizeComponent)>
                           </ul>
                         </nav>
                         <nav className=\\"menu-dropdowns\\">
@@ -200,11 +176,11 @@ exports[`Backend Backend Container renders correctly 1`] = `
                     </nav>
                     <section className=\\"footer-secondary\\">
                       <p className=\\"colophon\\">
-                        Manifold is released under the
+                        Manifold is released under the 
                         <a href=\\"https://raw.githubusercontent.com/ManifoldScholar/manifold/development/LICENSE.md\\">
                           GNU General Public License v3
                         </a>
-                        . Download and contribute to
+                        . Download and contribute to 
                         <a href=\\"https://github.com/ManifoldScholar/manifold\\">
                           Manifold
                         </a>

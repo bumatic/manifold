@@ -1,29 +1,24 @@
-jest.mock("react-text-mask", () => () => "ReactTextMask");
-
 import React from "react";
-import ProjectGeneralContainer from "../General";
+import { LogContainer } from "../Log";
 import { wrapWithRouter } from "test/helpers/routing";
 import { Provider } from "react-redux";
 import renderer from "react-test-renderer";
 import build from "test/fixtures/build";
 
-describe("Backend Project General Container", () => {
+describe("Backend Project Log Container", () => {
   const project = build.entity.project("1");
-  const subject = build.entity.subject("2");
-  project.relationships.subjects = [subject];
-  const currentUser = build.entity.user("1");
   const store = build.store();
-  store.dispatch({
-    type: "UPDATE_CURRENT_USER",
-    error: false,
-    payload: {
-      data: currentUser
-    }
-  });
+  const versionsMeta = { pagination: build.pagination() };
+  const versions = [build.entity.version("1"), build.entity.version("2", { itemId: "1", itemType: "Project" })];
 
   const component = wrapWithRouter(
     <Provider store={store}>
-      <ProjectGeneralContainer project={project} />
+      <LogContainer
+        project={project}
+        dispatch={store.dispatch}
+        versions={versions}
+        versionsMeta={versionsMeta}
+      />
     </Provider>
   );
 
