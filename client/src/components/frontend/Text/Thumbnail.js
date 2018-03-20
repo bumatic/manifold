@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import lh from "helpers/linkHandler";
 import { Link } from "react-router-dom";
-import { Text } from "components/global";
+import Cover from "./Cover";
 import FormattedDate from "components/global/FormattedDate";
 import get from "lodash/get";
 
@@ -15,30 +15,12 @@ export default class TextThumbnail extends Component {
 
   constructor(props) {
     super(props);
-    this.renderThumbnail = this.renderThumbnail.bind(this);
     this.renderSubtitle = this.renderSubtitle.bind(this);
   }
 
   renderSubtitle(text) {
     // if (!text.attributes.subtitle) return null;
     return <span className="subtitle">{text.attributes.subtitle}</span>;
-  }
-
-  // Since we only have demo icons at this point, thumbnail can either be an image or a
-  // placeholder icon
-  renderThumbnail(text) {
-    let thumbnail = null;
-    if (get(text.attributes, "coverStyles.small")) {
-      thumbnail = (
-        <img
-          src={text.attributes.coverStyles.small}
-          alt={"Thumbnail image for " + text.attributes.title}
-        />
-      );
-    } else {
-      thumbnail = <Text.Placeholder />;
-    }
-    return thumbnail;
   }
 
   render() {
@@ -57,7 +39,9 @@ export default class TextThumbnail extends Component {
               {text.attributes.age <= 30 ? (
                 <i className="manicon manicon-new" />
               ) : null}
-              {this.renderThumbnail(text)}
+              <Cover
+                text={this.props.text}
+              ></Cover>
             </figure>
           </Link>
 

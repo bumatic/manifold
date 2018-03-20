@@ -78,17 +78,14 @@
     }
 
     .checkbox-group {
-      display: block;
-      white-space: normal;
+      display: flex;
+      flex-wrap: wrap;
 
       .search-menu & {
         padding-top: 8px;
       }
 
       @include respond($break70) {
-        display: inline-block;
-        white-space: nowrap;
-
         .search-menu & {
           padding-left: 32px;
         }
@@ -96,18 +93,21 @@
     }
 
     .checkbox {
+      width: 100%;
       position: relative;
       display: block;
-      margin-right: 20px;
+      margin-right: 36px;
       margin-bottom: 10px;
       cursor: pointer;
 
-      @include respond($break20) {
-        display: inline-block;
+      @include respond($break50) {
+        width: auto;
+        margin-bottom: 14px;
       }
 
       @include respond($break70) {
-        margin-right: 32px;
+        margin-right: 62px;
+        margin-bottom: 14px;
       }
 
       .control-indicator {
@@ -142,6 +142,10 @@
         .manicon-check {
           visibility: visible;
         }
+      }
+
+      + .checkbox {
+        margin-left: 0;
       }
     }
 

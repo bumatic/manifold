@@ -1,5 +1,11 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
+import get from "lodash/get";
+import { Link } from "react-router-dom";
+
+import lh from "helpers/linkHandler";
+import { FormattedDate } from "components/global";
+import { Project } from "components/frontend";
 
 export default class SearchResultsTypeProject extends PureComponent {
   static displayName = "Search.Results.Type.Project";
@@ -11,42 +17,57 @@ export default class SearchResultsTypeProject extends PureComponent {
 
   render() {
     const { result } = this.props;
+    const project = get(result, 'relationships.project');
 
-    const image = "https://manifold.umn.edu" +
-      "/system/projects/avatars/d/9/c/" +
-      "small-cf08d1ffff8ed5d3a037cb0438d47fc3d6593c1e.jpg";
+    // Only render if project exists
+    if (!project) return false;
+    const attr = project.attributes;
+
     return (
       <li className="result-project" key={result.id}>
-        <a className="result" href="#">
+        <Link
+          className="result"
+          to={lh.link("frontendProject", attr.slug)}
+        >
           <figure className="image">
-            <img src={image}/>
+            <Project.Cover
+              project={project}
+            ></Project.Cover>
           </figure>
           <div className="body">
             <h3 className="title">
-              {'Project title'}
+              {attr.title}
             </h3>
-            <p className="subtitle">
-              {'Optional project subtitle'}
-            </p>
-            <ul className="makers">
-              <li>
-                {'Maker Beta'}
-              </li>
-              <li>
-                {'Maker Epsilon'}
-              </li>
-              <li>
-                {'Maker Sigma'}
-              </li>
-            </ul>
+            {attr.subtitle ?
+              <p className="subtitle">
+                {project.attributes.subtitle}
+              </p> : null
+            }
+            {project.relationships.creators ?
+              <ul className="makers">
+                <li>
+                  {'Maker Beta'}
+                </li>
+                <li>
+                  {'Maker Epsilon'}
+                </li>
+                <li>
+                  {'Maker Sigma'}
+                </li>
+              </ul> : null
+            }
             <div className="date">
-              {'Published September, 2017'}
+              <FormattedDate
+                prefix="Published"
+                format="MMMM, YYYY"
+                date={attr.createdAt}
+              ></FormattedDate>
             </div>
           </div>
           <div className="marker tertiary">
             {this.props.typeLabel}
           </div>
-        </a>
+        </Link>
       </li>
     );
   }

@@ -188,6 +188,7 @@ class Resource < ApplicationRecord
     {
       title: title,
       project_id: project_id,
+      body: description,
       kind: kind,
       caption: caption,
       attachment_file_name: attachment_file_name

@@ -85,6 +85,18 @@
         background-color: $neutral05;
       }
 
+      .title {
+        @include templateHead;
+        margin: 0;
+        color: $neutralOffBlack;
+        font-size: 15px;
+        font-weight: $semibold;
+
+        @include respond($break70) {
+          font-size: 17px;
+        }
+      }
+
       .image {
         margin-right: 12px;
         min-width: 50px;
@@ -125,8 +137,14 @@
         }
       }
 
+      .date {
+        @include resultSubtitle();
+        padding-top: 3px;
+      }
+
       .marker {
         @include blockLabel;
+        white-space: nowrap;
         margin-top: 16px;
 
         @include respond($break75) {
@@ -174,18 +192,6 @@
   }
 
   .result-project {
-    .result {
-      display: flex;
-    }
-
-    .title {
-      @include templateHead;
-      margin: 0;
-      color: $neutralOffBlack;
-      font-size: 15px;
-      font-weight: $semibold;
-    }
-
     .subtitle {
       @include resultSubtitle();
     }
@@ -208,16 +214,15 @@
         }
       }
     }
-
-    .date {
-      @include resultSubtitle();
-      padding-top: 3px;
-    }
   }
 
   .result-text {
     .result {
       display: flex;
+    }
+
+    .image svg {
+      fill: $neutral40;
     }
 
     .title {
@@ -227,6 +232,11 @@
 
     .subtitle {
       @include resultTitleSmall;
+      padding-bottom: 0.533em;
     }
+  }
+
+  .result-resource {
+
   }
 }
