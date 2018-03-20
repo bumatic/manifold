@@ -45,39 +45,19 @@ exports[`Backend Backend Container renders correctly 1`] = `
                                 </Route>
                               </NavLink>
                             </li>
-                            <li>
-                              <NavLink activeClassName=\\"active\\" to=\\"/backend/people\\" ariaCurrent=\\"true\\">
-                                <Route path=\\"/backend/people\\" exact={[undefined]} strict={[undefined]} location={[undefined]}>
-                                  <Link to=\\"/backend/people\\" className={[undefined]} style={[undefined]} aria-current={false} replace={false}>
-                                    <a className={[undefined]} style={[undefined]} aria-current={false} onClick={[Function]} href=\\"/backend/people\\">
-                                      People
-                                    </a>
-                                  </Link>
-                                </Route>
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink activeClassName=\\"active\\" to=\\"/backend/content\\" ariaCurrent=\\"true\\">
-                                <Route path=\\"/backend/content\\" exact={[undefined]} strict={[undefined]} location={[undefined]}>
-                                  <Link to=\\"/backend/content\\" className={[undefined]} style={[undefined]} aria-current={false} replace={false}>
-                                    <a className={[undefined]} style={[undefined]} aria-current={false} onClick={[Function]} href=\\"/backend/content\\">
-                                      Content
-                                    </a>
-                                  </Link>
-                                </Route>
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink activeClassName=\\"active\\" to=\\"/backend/settings\\" ariaCurrent=\\"true\\">
-                                <Route path=\\"/backend/settings\\" exact={[undefined]} strict={[undefined]} location={[undefined]}>
-                                  <Link to=\\"/backend/settings\\" className={[undefined]} style={[undefined]} aria-current={false} replace={false}>
-                                    <a className={[undefined]} style={[undefined]} aria-current={false} onClick={[Function]} href=\\"/backend/settings\\">
-                                      Settings
-                                    </a>
-                                  </Link>
-                                </Route>
-                              </NavLink>
-                            </li>
+                            <Connect(HigherOrder.WithCurrentUser('RequireAbilityComponent)) entity=\\"user\\" requiredAbility=\\"read\\">
+                              <HigherOrder.WithCurrentUser('RequireAbilityComponent) entity=\\"user\\" requiredAbility=\\"read\\" currentUser={{...}} dispatch={[Function]}>
+                                <RequireAbilityComponent entity=\\"user\\" requiredAbility=\\"read\\" currentUser={{...}} dispatch={[Function]} hasAbilityBehavior=\\"show\\" />
+                              </HigherOrder.WithCurrentUser('RequireAbilityComponent)>
+                            </Connect(HigherOrder.WithCurrentUser('RequireAbilityComponent))>
+                            <Connect(RequireKind) requiredKind={{...}}>
+                              <RequireKind requiredKind={{...}} authentication={{...}} dispatch={[Function]} kindMatchBehavior=\\"show\\" />
+                            </Connect(RequireKind)>
+                            <Connect(HigherOrder.WithCurrentUser('RequireAbilityComponent)) entity=\\"settings\\" requiredAbility=\\"read\\">
+                              <HigherOrder.WithCurrentUser('RequireAbilityComponent) entity=\\"settings\\" requiredAbility=\\"read\\" currentUser={{...}} dispatch={[Function]}>
+                                <RequireAbilityComponent entity=\\"settings\\" requiredAbility=\\"read\\" currentUser={{...}} dispatch={[Function]} hasAbilityBehavior=\\"show\\" />
+                              </HigherOrder.WithCurrentUser('RequireAbilityComponent)>
+                            </Connect(HigherOrder.WithCurrentUser('RequireAbilityComponent))>
                           </ul>
                         </nav>
                         <nav className=\\"menu-dropdowns\\">

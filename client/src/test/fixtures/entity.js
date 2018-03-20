@@ -42,12 +42,29 @@ const metadataProperties = [
   "volume"
 ];
 
-const abilities = {
+const abilitiesForUser = {
   read: true,
   create: true,
   update: true,
   delete: true,
+  updateMetadata: true,
   readIfDeleted: true
+};
+
+const abilities = {
+  viewDrafts: false
+};
+
+const classAbilities = {
+  annotation: { create: true, read: true },
+  comment: { create: true, read: true },
+  project: { create: true, read: true },
+  permission: { create: true, read: true },
+  settings: { create: true, read: true },
+  statistics: { create: true, read: true },
+  subject: { create: true, read: true },
+  user: { create: true, read: true },
+  version: { create: true, read: true }
 };
 
 const defaults = {
@@ -119,7 +136,8 @@ const defaults = {
       coverStyles: {},
       avatarStyles: {},
       hashtag: "#cute_dog",
-      hideActivity: false
+      hideActivity: false,
+      abilitiesForUser
     },
     relationships: {
       resources: []
@@ -193,7 +211,7 @@ const defaults = {
     attributes: {
       body: "Plaid clash with polka dots, I hope you ain't mad.",
       createdAt: commentDate,
-      abilities
+      abilitiesForUser
     },
     relationships: {
       creator: null
@@ -207,10 +225,12 @@ const defaults = {
       firstName: "Rowan",
       lastName: "Ida",
       fullName: "Rowan Ida",
-      role: "Admin",
-      kind: "Admin",
+      role: "admin",
+      kind: "admin",
       avatarStyles: {},
       isCurrentUser: true,
+      classAbilities,
+      abilitiesForUser,
       abilities
     }
   },
@@ -314,7 +334,7 @@ const defaults = {
       endNode: "another-node",
       startChar: 4,
       endChar: 13,
-      abilities
+      abilitiesForUser
     }
   },
 
@@ -372,7 +392,7 @@ const defaults = {
   permission: {
     type: "permissions",
     attributes: {
-      roleNames: ["author"]
+      roleNames: ["project_author"]
     },
     relationships: {
       resource: null,
