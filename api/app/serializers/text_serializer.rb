@@ -1,10 +1,12 @@
 # Serializes a Text model
 class TextSerializer < TextPartialSerializer
   include SerializedMetadata
+  include Abilities
+
   meta(partial: false)
 
   attributes :toc, :metadata, :metadata_properties, :metadata_formatted,
-             :citations, :description, :spine, :sections_map
+             :citations, :description, :spine, :sections_map, :abilities_for_user
 
   belongs_to :project
   has_many :stylesheets, serializer: StylesheetPartialSerializer

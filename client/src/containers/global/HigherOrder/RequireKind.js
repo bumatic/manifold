@@ -14,13 +14,13 @@ class RequireKind extends PureComponent {
   static propTypes = {
     requiredKind: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
       .isRequired,
-    kindMatchBehavior: PropTypes.oneOf(["hide", "show"]).isRequired,
+    behavior: PropTypes.oneOf(["hide", "show"]).isRequired,
     redirect: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
   };
 
   static defaultProps = {
-    kindMatchBehavior: "show"
+    behavior: "show"
   };
 
   constructor() {
@@ -66,7 +66,7 @@ class RequireKind extends PureComponent {
   }
 
   behavior(props) {
-    return props.kindMatchBehavior;
+    return props.behavior;
   }
 
   renderHide(props) {

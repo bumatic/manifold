@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Navigation } from "components/backend";
+import { HigherOrder } from "containers/global";
 import lh from "helpers/linkHandler";
 import { childRoutes } from "helpers/router";
 
@@ -34,19 +35,25 @@ export class SettingsWrapperContainer extends PureComponent {
 
   render() {
     return (
-      <section className="backend-panel">
-        <aside className="scrollable">
-          <div className="wrapper">
-            <Navigation.Secondary links={this.secondaryNavigationLinks()} />
-          </div>
-        </aside>
-        <div className="container">
-          <aside className="aside">
-            <Navigation.Secondary links={this.secondaryNavigationLinks()} />
+      <HigherOrder.RequireAbility
+        entity="settings"
+        error={{ detail: "You are not allowed to update settings." }}
+        requiredAbility="update"
+      >
+        <section className="backend-panel">
+          <aside className="scrollable">
+            <div className="wrapper">
+              <Navigation.Secondary links={this.secondaryNavigationLinks()} />
+            </div>
           </aside>
-          <div className="panel">{childRoutes(this.props.route)}</div>
-        </div>
-      </section>
+          <div className="container">
+            <aside className="aside">
+              <Navigation.Secondary links={this.secondaryNavigationLinks()} />
+            </aside>
+            <div className="panel">{childRoutes(this.props.route)}</div>
+          </div>
+        </section>
+      </HigherOrder.RequireAbility>
     );
   }
 }

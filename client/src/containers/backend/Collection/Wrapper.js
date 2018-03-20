@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import connectAndFetch from "utils/connectAndFetch";
 import { Navigation, Dialog } from "components/backend";
+import { HigherOrder } from "containers/global";
 import { entityStoreActions, notificationActions } from "actions";
 import { select } from "utils/entityUtils";
 import { collectionsAPI, requests } from "api";
@@ -161,7 +162,11 @@ export class CollectionWrapperContainer extends PureComponent {
     if (!collection) return null;
 
     return (
-      <div>
+      <HigherOrder.RequireAbility
+        entity={collection}
+        error={{ detail: "You are not allowed to edit this collection." }}
+        requiredAbility="update"
+      >
         {this.state.confirmation ? (
           <Dialog.Confirm {...this.state.confirmation} />
         ) : null}
@@ -198,7 +203,7 @@ export class CollectionWrapperContainer extends PureComponent {
             <div className="panel">{this.renderRoutes()}</div>
           </div>
         </section>
-      </div>
+      </HigherOrder.RequireAbility>
     );
   }
 }

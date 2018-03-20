@@ -22,6 +22,7 @@ module Abilities
 
   def class_abilities
     {
+      page: abilities_for(Page),
       annotation: abilities_for(Annotation),
       comment: abilities_for(Comment),
       project: abilities_for(Project),
@@ -35,7 +36,11 @@ module Abilities
   end
 
   def abilities_for(klass)
-    { create: klass.creatable_by?(object), read: klass.readable_by?(object) }
+    {
+      create: klass.creatable_by?(object),
+      read: klass.readable_by?(object),
+      update: klass.updatable_by?(object)
+    }
   end
 
   def user

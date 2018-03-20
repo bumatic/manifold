@@ -30,27 +30,29 @@ RSpec.describe Abilities, type: :serializer do
   }
   let (:reader_target) {
     JSON.parse({
-      annotation: { create: true, read: true },
-      comment: { create: true, read: true },
-      project: { create: false, read: true },
-      permission: { create: false, read: false },
-      settings: { create: false, read: false },
-      statistics: { create: false, read: false },
-      subject: { create: false, read: true },
-      user: { create: false, read: false },
-      version: { create: false, read: false }}.to_json)
+      annotation: { create: true, read: true, update: true },
+      comment: { create: true, read: true, update: true },
+      page: { create: false, read: true, update: false },
+      project: { create: false, read: true, update: false },
+      permission: { create: false, read: false, update: false },
+      settings: { create: false, read: false, update: false },
+      statistics: { create: false, read: false, update: false },
+      subject: { create: false, read: true, update: false },
+      user: { create: false, read: false, update: false },
+      version: { create: false, read: false, update: false }}.to_json)
   }
   let (:admin_target) {
     JSON.parse({
-       annotation: { create: true, read: true },
-       comment: { create: true, read: true },
-       project: { create: true, read: true },
-       permission: { create: true, read: true },
-       settings: { create: false, read: true },
-       statistics: { create: false, read: true },
-       subject: { create: true, read: true },
-       user: { create: true, read: true },
-       version: { create: false, read: true }}.to_json)
+       annotation: { create: true, read: true, update: true },
+       comment: { create: true, read: true, update: true },
+       page: { create: true, read: true, update: true },
+       project: { create: true, read: true, update: true },
+       permission: { create: true, read: true, update: true },
+       settings: { create: false, read: true, update: true },
+       statistics: { create: false, read: true, update: false },
+       subject: { create: true, read: true, update: true },
+       user: { create: true, read: true, update: true },
+       version: { create: false, read: true, update: false }}.to_json)
   }
 
   context "returns correct abilities for current user" do

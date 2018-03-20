@@ -2,28 +2,47 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import withCurrentUser from "containers/global/HigherOrder/withCurrentUser";
 import isString from "lodash/isString";
+import isPlainObject from "lodash/isPlainObject";
+import { notificationActions } from "actions";
 
 export class RequireAbilityComponent extends PureComponent {
   static propTypes = {
     entity: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
       .isRequired,
-    requiredAbility: PropTypes.string.isRequired,
-    hasAbilityBehavior: PropTypes.oneOf(["hide", "show"]).isRequired,
+    requiredAbility: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+      .isRequired,
+    behavior: PropTypes.oneOf(["hide", "show"]).isRequired,
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     redirect: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     currentUser: PropTypes.object
   };
 
   static defaultProps = {
-    hasAbilityBehavior: "show"
+    behavior: "show",
+    error: false
   };
+
+  componentDidMount() {
+    this.maybeError(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.maybeError(nextProps);
+  }
 
   hasAbility(props) {
     const abilities = this.abilities(props);
-    const ability = props.requiredAbility;
+    const { requiredAbility } = props;
     if (!abilities) return false;
-    if (!abilities[ability]) return false;
-    return abilities[ability];
+    if (isString(requiredAbility)) {
+      if (!abilities[requiredAbility]) return false;
+      return abilities[requiredAbility];
+    }
+    const match = requiredAbility.find(ability => {
+      return abilities[ability] === true;
+    });
+    return match !== undefined;
   }
 
   abilities(props) {
@@ -35,7 +54,24 @@ export class RequireAbilityComponent extends PureComponent {
   }
 
   behavior(props) {
-    return props.hasAbilityBehavior;
+    return props.behavior;
+  }
+
+  maybeError(props) {
+    if (this.error(props) && !this.hasAbility(props)) {
+      let error = {
+        title: "Access Denied.",
+        detail: "You do not have sufficient permissions to perform this action."
+      };
+      if (isPlainObject(props.error)) {
+        error = Object.assign(error, props.error);
+      }
+      props.dispatch(notificationActions.fatalError(error));
+    }
+  }
+
+  error(props) {
+    return !!props.error;
   }
 
   renderHide(props) {

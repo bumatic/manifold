@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import connectAndFetch from "utils/connectAndFetch";
 import { Navigation, Dialog } from "components/backend";
+import { HigherOrder } from "containers/global";
 import { entityStoreActions, notificationActions } from "actions";
 import { select } from "utils/entityUtils";
 import { resourcesAPI, requests } from "api";
@@ -173,7 +174,11 @@ export class ResourceWrapperContainer extends PureComponent {
     if (!resource) return null;
 
     return (
-      <div>
+      <HigherOrder.RequireAbility
+        entity={resource}
+        error={{ detail: "You are not allowed to edit this resource." }}
+        requiredAbility={["update", "updateMetadata"]}
+      >
         {this.state.confirmation ? (
           <Dialog.Confirm {...this.state.confirmation} />
         ) : null}
@@ -217,7 +222,7 @@ export class ResourceWrapperContainer extends PureComponent {
             <div className="panel">{this.renderRoutes()}</div>
           </div>
         </section>
-      </div>
+      </HigherOrder.RequireAbility>
     );
   }
 }

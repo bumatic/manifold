@@ -218,9 +218,12 @@ export class ProjectWrapperContainer extends PureComponent {
     if (!this.props.project) return null;
     const { project } = this.props;
     this.maybeRedirectToResources(project);
-
     return (
-      <div>
+      <HigherOrder.RequireAbility
+        entity={project}
+        error={{ detail: "You are not allowed to edit this project." }}
+        requiredAbility={["update", "updateMetadata"]}
+      >
         {this.state.confirmation ? (
           <Dialog.Confirm {...this.state.confirmation} />
         ) : null}
@@ -248,7 +251,7 @@ export class ProjectWrapperContainer extends PureComponent {
             <div className="panel">{this.renderRoutes()}</div>
           </div>
         </section>
-      </div>
+      </HigherOrder.RequireAbility>
     );
   }
 }

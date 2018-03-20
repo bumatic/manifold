@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import connectAndFetch from "utils/connectAndFetch";
 import { Dialog, Navigation } from "components/backend";
+import { HigherOrder } from "containers/global";
 import { entityStoreActions } from "actions";
 import { select } from "utils/entityUtils";
 import { textsAPI, requests } from "api";
@@ -155,7 +156,11 @@ export class TextWrapperContainer extends PureComponent {
     const { text } = this.props;
     if (!text) return null;
     return (
-      <div>
+      <HigherOrder.RequireAbility
+        entity={text}
+        error={{ detail: "You are not allowed to update this text." }}
+        requiredAbility={["update"]}
+      >
         {this.state.confirmation ? (
           <Dialog.Confirm {...this.state.confirmation} />
         ) : null}
@@ -192,7 +197,7 @@ export class TextWrapperContainer extends PureComponent {
             <div className="panel">{this.renderRoutes()}</div>
           </div>
         </section>
-      </div>
+      </HigherOrder.RequireAbility>
     );
   }
 }
