@@ -6,9 +6,17 @@ import { Provider } from "react-redux";
 import build from "test/fixtures/build";
 
 describe("Backend Project Form Subjects Component", () => {
-  const store = build.store();
   const project = build.entity.project("1");
   project.relationships.subjects = [build.entity.subject("2")];
+  const currentUser = build.entity.user("1");
+  const store = build.store();
+  store.dispatch({
+    type: "UPDATE_CURRENT_USER",
+    error: false,
+    payload: {
+      data: currentUser
+    }
+  });
 
   const component = renderer.create(
     wrapWithRouter(

@@ -30,7 +30,8 @@ module Abilities
       settings: abilities_for(Settings),
       statistics: abilities_for(Statistics),
       subject: abilities_for(Subject),
-      user: abilities_for(User)
+      user: abilities_for(User),
+      version: abilities_for(Version)
     }
   end
 

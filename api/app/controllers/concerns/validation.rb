@@ -286,6 +286,10 @@ module Validation
     params.permit(filter: [])[:filter]
   end
 
+  def version_filter_params
+    params.permit(filter: [])[:filter]
+  end
+
   def user_filter_params
     params.permit(filter: [:keyword, :typeahead, :role])[:filter]
   end

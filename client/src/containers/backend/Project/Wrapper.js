@@ -130,6 +130,13 @@ export class ProjectWrapperContainer extends PureComponent {
         key: "social",
         entity: project,
         ability: "update"
+      },
+      {
+        path: lh.link("backendProjectLog", project.id),
+        label: "Log",
+        key: "log",
+        entity: "version",
+        ability: "read"
       }
     ];
   }

@@ -39,7 +39,8 @@ RSpec.describe Abilities, type: :serializer do
       settings: { create: false, read: false },
       statistics: { create: false, read: false },
       subject: { create: false, read: true },
-      user: { create: false, read: false }}.to_json)
+      user: { create: false, read: false },
+      version: { create: false, read: false }}.to_json)
   }
   let (:admin_target) {
     JSON.parse({
@@ -50,7 +51,8 @@ RSpec.describe Abilities, type: :serializer do
        settings: { create: false, read: true },
        statistics: { create: false, read: true },
        subject: { create: true, read: true },
-       user: { create: true, read: true }}.to_json)
+       user: { create: true, read: true },
+       version: { create: false, read: true }}.to_json)
   }
 
   context "returns correct abilities for current user" do

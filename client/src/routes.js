@@ -280,6 +280,13 @@ export default () => {
               helper: p => `/backend/project/${p}/project-page`
             },
             {
+              name: "backendProjectLog",
+              exact: true,
+              component: Backend.Project.Log,
+              path: "/backend/project/:id/log",
+              helper: p => `/backend/project/${p}/log`
+            },
+            {
               exact: true,
               component: Backend.Project.General,
               path: "/backend/project/:id"

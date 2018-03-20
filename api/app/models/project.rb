@@ -34,6 +34,7 @@ class Project < ApplicationRecord
   extend FriendlyId
 
   # Magic
+  has_formatted_attribute :description
   with_metadata %w(
     series_title container_title isbn issn doi original_publisher
     original_publisher_place original_title publisher publisher_place version
@@ -47,7 +48,6 @@ class Project < ApplicationRecord
     }
   end
   with_citable_children :texts
-  has_formatted_attribute :description
 
   # URLs
   friendly_id :title, use: :slugged
@@ -57,6 +57,9 @@ class Project < ApplicationRecord
 
   # Rolify
   resourcify
+
+  # PaperTrail
+  has_paper_trail on: [:update]
 
   # Associations
   belongs_to :published_text, class_name: "Text", optional: true
@@ -77,6 +80,11 @@ class Project < ApplicationRecord
   has_many :twitter_queries
   has_many :permissions, as: :resource
   has_many :resource_imports, inverse_of: :project
+  has_many :tracked_dependent_versions,
+           -> { order(created_at: :desc) },
+           as: :parent_item,
+           class_name: "Version",
+           dependent: :nullify
 
   # rubocop:disable Style/Lambda
   has_many :uncollected_resources, ->(object) {
