@@ -19,7 +19,7 @@ describe("Global HigherOrder RequireKind Container", () => {
         <Provider store={store}>
           <RequireKindWrapper
             roleMatchBehavior="show"
-            requiredKind="any"
+            kind="any"
             authentication={authentication}
             children={child}
           />
@@ -36,7 +36,7 @@ describe("Global HigherOrder RequireKind Container", () => {
         <Provider store={store}>
           <RequireKindWrapper
             roleMatchBehavior="show"
-            requiredKind="any"
+            kind="any"
             authentication={{}}
             children={child}
           />

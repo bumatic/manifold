@@ -27,13 +27,13 @@ export default class NavigationSecondary extends Component {
           {this.props.links.map(link => {
             if (link.ability)
               return (
-                <HigherOrder.RequireAbility
+                <HigherOrder.Authorize
                   key={`${link.key}-wrapped`}
                   entity={link.entity}
-                  requiredAbility={link.ability}
+                  ability={link.ability}
                 >
                   {this.renderItem(link)}
-                </HigherOrder.RequireAbility>
+                </HigherOrder.Authorize>
               );
             return this.renderItem(link);
           })}

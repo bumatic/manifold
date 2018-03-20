@@ -69,7 +69,7 @@ export default class LayoutHeader extends Component {
                   {"Projects"}
                 </NavLink>
               </li>
-              <HigherOrder.RequireKind requiredKind={["admin", "editor"]}>
+              <HigherOrder.Authorize kind={"admin"}>
                 <li>
                   <NavLink
                     activeClassName="active"
@@ -78,10 +78,8 @@ export default class LayoutHeader extends Component {
                     {"People"}
                   </NavLink>
                 </li>
-              </HigherOrder.RequireKind>
-              <HigherOrder.RequireKind
-                requiredKind={["admin", "editor", "marketeer"]}
-              >
+              </HigherOrder.Authorize>
+              <HigherOrder.Authorize kind={["admin", "editor", "marketeer"]}>
                 <li>
                   <NavLink
                     activeClassName="active"
@@ -90,11 +88,8 @@ export default class LayoutHeader extends Component {
                     {"Content"}
                   </NavLink>
                 </li>
-              </HigherOrder.RequireKind>
-              <HigherOrder.RequireAbility
-                entity="settings"
-                requiredAbility="read"
-              >
+              </HigherOrder.Authorize>
+              <HigherOrder.Authorize entity="settings" ability="read">
                 <li>
                   <NavLink
                     activeClassName="active"
@@ -103,7 +98,7 @@ export default class LayoutHeader extends Component {
                     {"Settings"}
                   </NavLink>
                 </li>
-              </HigherOrder.RequireAbility>
+              </HigherOrder.Authorize>
             </ul>
           </nav>
 

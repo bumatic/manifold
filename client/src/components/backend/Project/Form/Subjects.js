@@ -62,7 +62,7 @@ export class ProjectSubjects extends PureComponent {
     const project = this.props.project;
 
     return (
-      <HigherOrder.RequireAbility requiredAbility="create" entity="subject">
+      <HigherOrder.Authorize ability="create" entity="subject">
         <Form.HasMany
           label="Subjects"
           placeholder="Add a Subject"
@@ -78,7 +78,7 @@ export class ProjectSubjects extends PureComponent {
           entityLabelAttribute="name"
           errors={get(this.props, "createSubjects.errors")}
         />
-      </HigherOrder.RequireAbility>
+      </HigherOrder.Authorize>
     );
   }
 }

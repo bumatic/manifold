@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Navigation } from "components/backend";
+import { HigherOrder } from "containers/global";
 import { connect } from "react-redux";
 import lh from "helpers/linkHandler";
 import { childRoutes } from "helpers/router";
@@ -29,7 +30,11 @@ export class PagesWrapperContainer extends PureComponent {
 
   render() {
     return (
-      <div>
+      <HigherOrder.Authorize
+        entity="page"
+        failureFatalError={{ detail: "You are not allowed to edit content." }}
+        ability="create"
+      >
         <section className="backend-panel">
           <aside className="scrollable">
             <div className="wrapper">
@@ -43,7 +48,7 @@ export class PagesWrapperContainer extends PureComponent {
             <div className="panel">{childRoutes(this.props.route)}</div>
           </div>
         </section>
-      </div>
+      </HigherOrder.Authorize>
     );
   }
 }

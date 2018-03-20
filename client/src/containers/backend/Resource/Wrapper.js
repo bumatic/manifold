@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import connectAndFetch from "utils/connectAndFetch";
 import { Navigation, Dialog } from "components/backend";
+import { HigherOrder } from "containers/global";
 import { entityStoreActions, notificationActions } from "actions";
 import { select } from "utils/entityUtils";
 import { resourcesAPI, requests } from "api";
@@ -126,7 +127,9 @@ export class ResourceWrapperContainer extends PureComponent {
       {
         path: lh.link("backendResourceMetadata", resource.id),
         label: "Metadata",
-        key: "metadata"
+        key: "metadata",
+        entity: resource.relationships.project,
+        ability: "updateMetadata"
       }
     ];
     if (
@@ -173,7 +176,13 @@ export class ResourceWrapperContainer extends PureComponent {
     if (!resource) return null;
 
     return (
-      <div>
+      <HigherOrder.Authorize
+        entity={resource}
+        failureFatalError={{
+          detail: "You are not allowed to edit this resource."
+        }}
+        ability={["update", "updateMetadata"]}
+      >
         {this.state.confirmation ? (
           <Dialog.Confirm {...this.state.confirmation} />
         ) : null}
@@ -217,7 +226,7 @@ export class ResourceWrapperContainer extends PureComponent {
             <div className="panel">{this.renderRoutes()}</div>
           </div>
         </section>
-      </div>
+      </HigherOrder.Authorize>
     );
   }
 }

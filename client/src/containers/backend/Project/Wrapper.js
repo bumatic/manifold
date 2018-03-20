@@ -196,14 +196,14 @@ export class ProjectWrapperContainer extends PureComponent {
         <button onClick={this.doPreview} className="button-bare-primary">
           Preview <i className="manicon manicon-eye-outline" />
         </button>
-        <HigherOrder.RequireAbility entity={project} requiredAbility={"delete"}>
+        <HigherOrder.Authorize entity={project} ability={"delete"}>
           <button
             onClick={this.handleProjectDestroy}
             className="button-bare-primary"
           >
             Delete <i className="manicon manicon-trashcan" />
           </button>
-        </HigherOrder.RequireAbility>
+        </HigherOrder.Authorize>
       </div>
     );
   }
@@ -218,9 +218,14 @@ export class ProjectWrapperContainer extends PureComponent {
     if (!this.props.project) return null;
     const { project } = this.props;
     this.maybeRedirectToResources(project);
-
     return (
-      <div>
+      <HigherOrder.Authorize
+        entity={project}
+        failureFatalError={{
+          detail: "You are not allowed to edit this project."
+        }}
+        ability={["update", "updateMetadata"]}
+      >
         {this.state.confirmation ? (
           <Dialog.Confirm {...this.state.confirmation} />
         ) : null}
@@ -248,7 +253,7 @@ export class ProjectWrapperContainer extends PureComponent {
             <div className="panel">{this.renderRoutes()}</div>
           </div>
         </section>
-      </div>
+      </HigherOrder.Authorize>
     );
   }
 }

@@ -151,10 +151,7 @@ export class DashboardsAdminContainer extends PureComponent {
                     />
                   ) : null}
                 </nav>
-                <HigherOrder.RequireAbility
-                  entity="statistics"
-                  requiredAbility={"read"}
-                >
+                <HigherOrder.Authorize entity="statistics" ability={"read"}>
                   <section>
                     <header className="section-heading-secondary">
                       <h3>
@@ -166,7 +163,7 @@ export class DashboardsAdminContainer extends PureComponent {
                       statistics={this.props.statistics}
                     />
                   </section>
-                </HigherOrder.RequireAbility>
+                </HigherOrder.Authorize>
               </div>
             </section>
           </div>

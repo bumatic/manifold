@@ -191,12 +191,12 @@ export default class ListSearchable extends PureComponent {
 
     if (props.newButton.authorizedFor)
       return (
-        <HigherOrder.RequireAbility
+        <HigherOrder.Authorize
           entity={props.newButton.authorizedFor}
-          requiredAbility="create"
+          ability="create"
         >
           {button}
-        </HigherOrder.RequireAbility>
+        </HigherOrder.Authorize>
       );
     return button;
   }
@@ -220,12 +220,12 @@ export default class ListSearchable extends PureComponent {
 
     if (props.secondaryButton.authorizedFor)
       return (
-        <HigherOrder.RequireAbility
+        <HigherOrder.Authorize
           entity={props.secondaryButton.authorizedFor}
-          requiredAbility="create"
+          ability="create"
         >
           {button}
-        </HigherOrder.RequireAbility>
+        </HigherOrder.Authorize>
       );
     return button;
   }

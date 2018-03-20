@@ -1,20 +1,31 @@
 import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import withCurrentUser from "containers/global/HigherOrder/withCurrentUser";
+import { HigherOrder } from "containers/global";
 import { Dashboards } from "containers/backend";
+import lh from "helpers/linkHandler";
 
-export class DashboardContainer extends PureComponent {
-  static propTypes = {
-    currentUser: PropTypes.object
-  };
-
+export default class DashboardContainer extends PureComponent {
   render() {
-    const currentUser = this.props.currentUser;
-    if (!currentUser) return null;
-    if (currentUser.attributes.kind === "project_author")
-      return <Dashboards.Author />;
-    return <Dashboards.Admin />;
+    return (
+      <HigherOrder.Authorize
+        kind={[
+          "admin",
+          "editor",
+          "marketeer",
+          "project_creator",
+          "project_editor",
+          "project_resource_editor",
+          "project_author"
+        ]}
+        failureRedirect={lh.link("frontend")}
+        failureNotification
+      >
+        <HigherOrder.Authorize kind="project_author">
+          <Dashboards.Author />
+        </HigherOrder.Authorize>
+        <HigherOrder.Authorize kind="project_author" successBehavior="hide">
+          <Dashboards.Admin />
+        </HigherOrder.Authorize>
+      </HigherOrder.Authorize>
+    );
   }
 }
-
-export default withCurrentUser(DashboardContainer);
