@@ -159,7 +159,6 @@ class SearchContainer extends PureComponent {
   }
 
   render() {
-
     return (
       <Overlay
         triggerScrollToTop={this.state.searchNum}
@@ -181,6 +180,7 @@ class SearchContainer extends PureComponent {
               pagination={this.props.resultsMeta.pagination}
               paginationClickHandler={this.setPage}
               results={this.props.results}
+              context="project"
             />
           ) : null}
         </div>

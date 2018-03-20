@@ -14,7 +14,12 @@ export default class SearchResultsList extends PureComponent {
   static propTypes = {
     results: PropTypes.array,
     pagination: PropTypes.object,
-    paginationClickHandler: PropTypes.func.isRequired
+    paginationClickHandler: PropTypes.func.isRequired,
+    context: PropTypes.string
+  };
+
+  static defaultProps = {
+    context: 'frontend'
   };
 
   componentForType(type) {
@@ -25,12 +30,26 @@ export default class SearchResultsList extends PureComponent {
     if (type === "text") return Types.Text;
   }
 
+  labelForType(type) {
+    if (type === "project") return "Project";
+    if (type === "searchableNode") return "Full Text";
+    if (type === "annotation") return "Annotation";
+    if (type === "resource") return "Resource";
+    if (type === "text") return "Text";
+  }
+
   renderResult(result) {
     const { searchableType } = result.attributes;
     const Component = this.componentForType(searchableType);
+    const typeLabel = this.labelForType(searchableType);
     if (Component) {
       return (
-        <Component key={result.id} result={result} />
+        <Component
+          key={result.id}
+          result={result}
+          context={this.props.context}
+          typeLabel={typeLabel}
+        />
       );
     }
     return null;

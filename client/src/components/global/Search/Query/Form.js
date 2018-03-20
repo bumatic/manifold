@@ -170,7 +170,7 @@ export default class SearchQuery extends PureComponent {
           ) : null}
 
           {this.props.facets.length > 0 ? (
-            <div className="filter">
+            <div className="filters">
               <label className="group-label">{"Show Results For:"}</label>
               <div className="checkbox-group">
                 <label key={"all"} className="checkbox">

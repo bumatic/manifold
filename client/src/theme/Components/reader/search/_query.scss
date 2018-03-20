@@ -52,10 +52,6 @@
   .filters {
     padding-top: 20px;
 
-    .filter + .filter {
-      margin-top: 40px;
-    }
-
     label {
       @include utilityPrimary;
       font-size: 13px;
@@ -79,8 +75,6 @@
           border-bottom: none;
         }
       }
-
-
     }
 
     .checkbox-group {
@@ -149,6 +143,10 @@
           visibility: visible;
         }
       }
+    }
+
+    + .filters {
+      padding-top: 40px;
     }
   }
 
