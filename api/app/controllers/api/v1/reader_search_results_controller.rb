@@ -9,7 +9,8 @@ module Api
           serializer = reader_search_params[:raw] ? nil : ReaderSearchResultSerializer
           render json: outcome.result,
                  each_serializer: serializer,
-                 include: [:creator, :text_section, :annotation],
+                 include: [:creator, :text_section, :annotation, :project, :resource,
+                           :text],
                  meta: { pagination: pagination_dict(outcome.result) }
         else
           render_error(outcome)

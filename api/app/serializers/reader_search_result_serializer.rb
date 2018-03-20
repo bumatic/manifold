@@ -6,6 +6,9 @@ class ReaderSearchResultSerializer < ApplicationSerializer
   attributes :score, :searchable_type, :searchable_id, :body, :highlighted_body,
              :node_uuid, :abilities
 
+  has_one :text, serializer: TextPartialSerializer
+  has_one :resource, serializer: ResourcePartialSerializer
+  has_one :project, serializer: ProjectPartialSerializer
   has_one :creator, serializer: UserSerializer
   has_one :text_section, serializer: TextSectionPartialSerializer
   has_one :annotation, serializer: AnnotationSerializer
