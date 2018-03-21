@@ -186,7 +186,7 @@ class Resource < ApplicationRecord
 
   def search_data
     {
-      title: title,
+      title: title_formatted,
       project_id: project_id,
       body: description,
       kind: kind,

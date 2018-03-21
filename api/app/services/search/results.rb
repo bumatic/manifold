@@ -64,7 +64,7 @@ module Search
     end
 
     def hydrate_associations!(result, models)
-      LOADABLE_ASSOCIATIONS .each do |type|
+      LOADABLE_ASSOCIATIONS.each do |type|
         key = "#{type}_id"
         next unless result.key? key
         id = result[key]
@@ -112,7 +112,7 @@ module Search
     def models_in(results)
       results.hits.inject([]) do |models, result|
         models << result_model_reference(result)
-        LOADABLE_ASSOCIATIONS .each do |association_name|
+        LOADABLE_ASSOCIATIONS.each do |association_name|
           key = "#{association_name}_id"
           next unless result["_source"].key? key
           association_id = result["_source"][key]

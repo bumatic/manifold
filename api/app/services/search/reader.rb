@@ -26,7 +26,7 @@ module Search
         page: page_number,
         per_page: per_page,
         where: where,
-        fields: [:body],
+        fields: [:title, :body],
         highlight: highlight_options,
         debug: Rails.env.development?,
         request_params: { search_type: search_type }
