@@ -109,6 +109,7 @@ export default class SearchQuery extends PureComponent {
 
   doSearch = (event = null) => {
     if (event) event.preventDefault();
+    this.props.setQueryState(this.state); // This is important for resetting location.state.searchQueryState
     this.props.doSearch();
   };
 

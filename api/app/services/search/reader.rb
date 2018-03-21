@@ -14,8 +14,7 @@ module Search
     end
 
     def execute
-      out = Results.new(Searchkick.search(keyword, search_options))
-      out
+      Results.new(Searchkick.search(keyword, search_options))
     end
 
     private

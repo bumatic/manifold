@@ -30,9 +30,7 @@ export default class SearchResultsTypeProject extends PureComponent {
           to={lh.link("frontendProject", attr.slug)}
         >
           <figure className="image">
-            <Project.Cover
-              project={project}
-            ></Project.Cover>
+            <Project.Cover project={project} />
           </figure>
           <div className="body">
             <h3 className="title">
@@ -61,7 +59,7 @@ export default class SearchResultsTypeProject extends PureComponent {
                 prefix="Published"
                 format="MMMM, YYYY"
                 date={attr.createdAt}
-              ></FormattedDate>
+              />
             </div>
           </div>
           <div className="marker tertiary">

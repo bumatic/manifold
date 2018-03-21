@@ -117,7 +117,7 @@ class SearchContainer extends PureComponent {
     return [];
   }
 
-  renderHeader(results, query) {
+  renderHeader(results, resultsMeta) {
     let output = (
       <header>
         <h1 className="title">{'Search'}</h1>
@@ -128,11 +128,13 @@ class SearchContainer extends PureComponent {
       const resultString =
         results.length === 1 ? 'result' : 'results';
 
+      if (!resultsMeta.keyword.trim()) return output;
+
       output = (
         <header>
           <h1 className="title">{'Search Results'}</h1>
           <p className="subtitle">
-            {`${results.length} ${resultString} for "${query.keyword}"`}
+            {`${results.length} ${resultString} for "${resultsMeta.keyword}"`}
           </p>
         </header>
       )
@@ -144,18 +146,19 @@ class SearchContainer extends PureComponent {
   render() {
     const queryState = this.searchQueryState();
     const results = this.props.results;
+    const resultsMeta = this.props.resultsMeta;
 
     return (
         <div>
           <div className="search-form-frontend">
             <div className="container">
-              {this.renderHeader(results, queryState)}
+              {this.renderHeader(results, resultsMeta)}
               <Search.Query.Form
-              initialState={queryState}
-              doSearch={this.doSearch}
-              setQueryState={this.setQueryState}
-              facets={this.facets()}
-              scopes={this.scopes()}
+                initialState={queryState}
+                doSearch={this.doSearch}
+                setQueryState={this.setQueryState}
+                facets={this.facets()}
+                scopes={this.scopes()}
               />
             </div>
           </div>

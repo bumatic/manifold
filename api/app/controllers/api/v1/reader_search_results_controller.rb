@@ -11,15 +11,18 @@ module Api
                  each_serializer: serializer,
                  include: [:creator, :text_section, :annotation, :project, :resource,
                            :text],
-                 meta: { pagination: pagination_dict(outcome.result) }
+                 meta: {
+                   keyword: search_options.dig(:keyword),
+                   pagination: pagination_dict(outcome.result)
+                 }
         else
-          render_error(outcome)
+          render_error outcome
         end
       end
 
       private
 
-      def render_error
+      def render_error(outcome)
         options = {
           status: 500,
           title: "Manifold encountered an error",
