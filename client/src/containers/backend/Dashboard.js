@@ -5,6 +5,7 @@ import lh from "helpers/linkHandler";
 
 export default class DashboardContainer extends PureComponent {
   render() {
+    // This will be the entry point to the author dashboard too, when built out more
     return (
       <HigherOrder.Authorize
         kind={[
@@ -13,18 +14,12 @@ export default class DashboardContainer extends PureComponent {
           "marketeer",
           "project_creator",
           "project_editor",
-          "project_resource_editor",
-          "project_author"
+          "project_resource_editor"
         ]}
         failureRedirect={lh.link("frontend")}
         failureNotification
       >
-        <HigherOrder.Authorize kind="project_author">
-          <Dashboards.Author />
-        </HigherOrder.Authorize>
-        <HigherOrder.Authorize kind="project_author" successBehavior="hide">
-          <Dashboards.Admin />
-        </HigherOrder.Authorize>
+        <Dashboards.Admin />
       </HigherOrder.Authorize>
     );
   }

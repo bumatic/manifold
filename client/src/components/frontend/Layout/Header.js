@@ -47,8 +47,7 @@ export default class LayoutHeader extends PureComponent {
       case "project_editor":
       case "project_resource_editor":
         return "Editor Mode";
-      case "project_author":
-        return "Author Mode";
+      case "project_author": // For now authors will not have access to the backend
       default:
         return null;
     }
